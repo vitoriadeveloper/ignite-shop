@@ -4,56 +4,81 @@ import {
   ProductContainer,
   ProductDetails,
 } from "@/src/styles/pages/product";
+import axios from "axios";
 import { GetStaticPaths, GetStaticProps } from "next";
+import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import Stripe from "stripe";
 
 interface ProductProps {
-    product: {
-        id: string
-        name: string
-        imageUrl: string
-        price: string
-        description: string
-        defaultPriceId: string
-
-      }
+  product: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    price: string;
+    description: string;
+    defaultPriceId: string;
+  };
 }
 
-
-export default function Product({product}: ProductProps) {
+export default function Product({ product }: ProductProps) {
   const { isFallback } = useRouter();
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false);
 
-  if(isFallback){
-    return <p>loading...</p>
+  if (isFallback) {
+    return <p>loading...</p>;
+  }
+  async function handleBuyProduct() {
+    try {
+      setIsCreatingCheckoutSession(true);
+      const response = await axios.post("/api/checkout", {
+        priceID: product.defaultPriceId,
+      });
+
+      const { checkoutUrl } = response.data;
+
+      window.location.href = checkoutUrl; // para redirecionar para rota externa, se fosse interna o useRouter serviria
+    } catch (error) {
+      // sentry / datadog
+      setIsCreatingCheckoutSession(false);
+      alert("Falha ao redirecionar ao checkout");
+    }
   }
 
   return (
-    <ProductContainer>
-      <ImageContainer>
-        <Image src={product.imageUrl} alt="" width={520} height={480}/>
-      </ImageContainer>
-      <ProductDetails>
-        <h1>{product.name}</h1>
-        <span>{product.price}</span>
-        <p>
-        {product.description}
-        </p>
-        <button>Comprar agora</button>
-      </ProductDetails>
-    </ProductContainer>
+    <>
+      <Head>
+        <title>{product.name}</title>
+      </Head>
+      <ProductContainer>
+        <ImageContainer>
+          <Image src={product.imageUrl} alt="" width={520} height={480} />
+        </ImageContainer>
+        <ProductDetails>
+          <h1>{product.name}</h1>
+          <span>{product.price}</span>
+          <p>{product.description}</p>
+          <button
+            disabled={isCreatingCheckoutSession}
+            onClick={handleBuyProduct}
+          >
+            Comprar agora
+          </button>
+        </ProductDetails>
+      </ProductContainer>
+    </>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    return {
-        paths: [
-            {params: {id: 'prod_Ol0tJAMhs6BPc7'}}
-        ],
-        fallback: true,
-    }
-}
+  return {
+    paths: [{ params: { id: "prod_Ol0tJAMhs6BPc7" } }],
+    fallback: true,
+  };
+};
 
 export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
   params,
