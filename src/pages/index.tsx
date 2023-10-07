@@ -16,10 +16,11 @@ import { useContext } from "react";
 import { CartContext, ProductInterface } from "../contexts/CartContext";
 
 interface HomeProps {
-  products:  ProductInterface[];
+  products: ProductInterface[];
 }
 export default function Home({ products }: HomeProps) {
-  const {addToCart, itemAlreadyExists} = useContext(CartContext)
+  const { addToCart, itemAlreadyExists, cartItems } = useContext(CartContext);
+  const cartQuantity = cartItems.length;
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
@@ -27,7 +28,7 @@ export default function Home({ products }: HomeProps) {
     },
   });
 
-  function handleAddToCart(e: Event, product: ProductInterface){
+  function handleAddToCart(e: Event, product: ProductInterface) {
     e.preventDefault();
     addToCart(product);
   }
@@ -57,11 +58,12 @@ export default function Home({ products }: HomeProps) {
 
                   <div>
                     <ButtonCart
-                    
+                      quantity=''
                       size="large"
                       color="green"
                       disabled={itemAlreadyExists(product.id)}
-                      onClick={(e) => handleAddToCart(e, product)}                     />
+                      onClick={(e) => handleAddToCart(e, product)}
+                    />
                   </div>
                 </footer>
               </Product>
@@ -80,7 +82,6 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const products = response.data.map((product) => {
     const price = product.default_price as Stripe.Price;
-
     return {
       id: product.id,
       name: product.name,
@@ -88,9 +89,9 @@ export const getStaticProps: GetStaticProps = async () => {
       price: new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: "BRL",
-      }).format(price.unit_amount! / 100),
-      defaultPriceId: product.default_price,
-      numberPrice: price.unit_amount /100,
+      }).format(price.unit_amount / 100),
+      numberPrice: price.unit_amount / 100,
+      defaultPriceId: price.id,
     };
   });
 

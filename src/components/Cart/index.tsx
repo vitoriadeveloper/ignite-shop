@@ -1,32 +1,33 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import ButtonCart from "../ButtonCart";
 import {
-  BtnFinalization,
-  CardProduct,
   CartClose,
-  CartDetails,
-  CartInfo,
-  ContainerImage,
-  ImageContent,
-  ShoppingCartContainer,
+  CartContent,
+  CartFinalization,
+  CartProduct,
+  CartProductDetails,
+  CartProductImage,
+  FinalizationDetails,
 } from "./styles";
-import { X } from "phosphor-react";
+import {  X } from "phosphor-react";
 import Image from "next/image";
 import { useContext, useState } from "react";
-import { CartContext } from "@/src/contexts/CartContext";
 import axios from "axios";
 
+import { CartContext } from "@/src/contexts/CartContext";
+import ButtonCart from "../ButtonCart";
+
 export default function Cart() {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-  useState(false);
-  const { removeFromCar, cartItems, cartTotal } = useContext(CartContext);
+  const { cartItems, cartTotal, removeFromCar } = useContext(CartContext);
   const cartQuantity = cartItems.length;
+
   const formattedCartTotal = new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
   }).format(cartTotal);
 
-  
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false);
+
   async function handleCheckout() {
     try {
       setIsCreatingCheckoutSession(true);
@@ -41,64 +42,69 @@ export default function Cart() {
     } catch (err) {
       setIsCreatingCheckoutSession(false);
       alert("Falha ao redirecionar ao checkout!");
+      console.error();
+      
     }
   }
+
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
         <ButtonCart quantity={cartQuantity} />
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.DialogContent>
-          <ShoppingCartContainer>
-            <CartClose>
-              <X size={24} weight="bold" />
-            </CartClose>
-            <section>
-              <h2>Sacola de compras</h2>
-              {cartItems.map((item) => (
-                <CardProduct key={item.id}>
-                  <ContainerImage>
-                    <ImageContent>
-                      <Image
-                        src={item.imageUrl}
-                        alt=""
-                        width={95}
-                        height={95}
-                      />
-                    </ImageContent>
-                    <CartDetails>
-                      <p>{item.name}</p>
-                      <span>{item.price}</span>
-                      <button onClick={() => removeFromCar(item.id)}>
-                        Remover
-                      </button>
-                    </CartDetails>
-                  </ContainerImage>
-                </CardProduct>
-              ))}
-            </section>
+        <CartContent>
+          <CartClose>
+            <X size={24} weight="bold" />
+          </CartClose>
+          <h2>Sacola de compras</h2>
 
-            <CartInfo>
+          <section>
+            {cartItems.length <= 0 && (
+              <p>Parece que seu carrinho está vazio : (</p>
+            )}
+            {cartItems.map((cartItem) => (
+              <CartProduct key={cartItem.id}>
+                <CartProductImage>
+                  <Image
+                    width={100}
+                    height={93}
+                    alt=""
+                    src={cartItem.imageUrl}
+                  />
+                </CartProductImage>
+                <CartProductDetails>
+                  <p>{cartItem.name}</p>
+                  <strong>{cartItem.price}</strong>
+                  <button onClick={() => removeFromCar(cartItem.id)}>
+                    Remover
+                  </button>
+                </CartProductDetails>
+              </CartProduct>
+            ))}
+          </section>
+
+          <CartFinalization>
+            <FinalizationDetails>
               <div>
-                <p>Quantidade</p>
-                <span>
+                <span>Quantidade</span>
+                <p>
                   {cartQuantity} {cartQuantity > 1 ? "itens" : "item"}
-                </span>
+                </p>
               </div>
-              <div className="last-child">
-                <p>Valor total</p>
-                <span>{formattedCartTotal}</span>
+              <div>
+                <span>Valor total</span>
+                <p>{formattedCartTotal}</p>
               </div>
-
-              <BtnFinalization 
+            </FinalizationDetails>
+            <button
+              onClick={handleCheckout}
               disabled={isCreatingCheckoutSession || cartQuantity <= 0}
-              onClick={handleCheckout}>
-                Finalizar
-              </BtnFinalization>
-            </CartInfo>
-          </ShoppingCartContainer>
-        </Dialog.DialogContent>
+            >
+              Finalizar compra
+            </button>
+          </CartFinalization>
+        </CartContent>
       </Dialog.Portal>
     </Dialog.Root>
   );

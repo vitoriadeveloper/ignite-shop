@@ -62,8 +62,10 @@ const itemAlreadyInCart = itemAlreadyExists(product.id);
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = [{ params: { id: "prod_MO0C3yNu4UBp9p" } }];
+
   return {
-    paths: [{ params: { id: "prod_Ol0tJAMhs6BPc7" } }],
+    paths,
     fallback: true,
   };
 };
@@ -71,14 +73,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
   params,
 }) => {
-  if (!params || typeof params.id !== "string") {
-    return {
-      notFound: true, // or handle the error in a way that makes sense for your application
-    };
-  }
-  const productID = params.id;
+  const productId = params.id;
 
-  const product = await stripe.products.retrieve(productID, {
+  const product = await stripe.products.retrieve(productId, {
     expand: ["default_price"],
   });
 
@@ -93,12 +90,11 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
         price: new Intl.NumberFormat("pt-BR", {
           style: "currency",
           currency: "BRL",
-        }).format(price.unit_amount! / 100),
+        }).format(price.unit_amount / 100),
+        numberPrice: price.unit_amount / 100,
         description: product.description,
         defaultPriceId: price.id,
-        numberPrice: price.unit_amount /100,
       },
-     
     },
     revalidate: 60 * 60 * 1, // 1 hour
   };

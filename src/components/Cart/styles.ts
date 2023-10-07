@@ -1,165 +1,146 @@
-import { styled } from '@/src/styles';
-import * as Dialog from '@radix-ui/react-dialog';
+import * as Dialog from "@radix-ui/react-dialog";
+import { styled } from "../../styles";
 
-export const ShoppingCartContainer = styled(Dialog.Content, {
-     display: 'flex',
-     alignItems: 'flex-start',
-     justifyContent: 'space-between',
-     flexDirection: 'column',
-     padding: '3rem',
-     width: '480px',
-     boxShadow: "-4px 0px 30px rgba(0, 0, 0, 0.8)",
-     position: 'fixed',
-     top: 0,
-     right: 0,
-     bottom: 0,
+export const CartContent = styled(Dialog.Content, {
+  position: "fixed",
+  top: 0,
+  right: 0,
+  bottom: 0,
+  width: "30rem",
+  background: "$gray800",
+  padding: "3rem",
+  paddingTop: "4.5rem",
+  boxShadow: "-4px 0px 30px rgba(0, 0, 0, 0.8)",
+  display: "flex",
+  flexDirection: "column",
 
-     
+  h2: {
+    fontWeight: 700,
+    fontSize: "$lg",
+    color: "$gray100",
+    marginBottom: "2rem",
+  },
 
-     backgroundColor: '$gray800',
+  "> section": {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1.5rem",
+    flex: 1,
+    overflowY: "auto",
+  },
+});
 
-     "> section": {
-        //  overflowY: "auto",
-         display: 'flex',
-         alignItems: 'flex-start',
-         flexDirection: 'column',
-         gap: '1rem',
+export const CartClose = styled(Dialog.Close, {
+  background: "none",
+  border: "none",
+  color: "$gray500",
+  position: "absolute",
+  top: "1.75rem",
+  right: "1.75rem",
+});
 
+export const CartProduct = styled("div", {
+  width: "100%",
+  display: "flex",
+  gap: "1.25rem",
+  alignItems: "center",
+  height: "5.8125rem",
+});
 
-     },
+export const CartProductImage = styled("div", {
+  width: "6.3125rem",
+  height: "5.8125rem",
+  background: "linear-gradient(180deg, #1EA483 0%, #7465D4 100%)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  borderRadius: 8,
 
-    h2: {
-        fontSize: '$lg',
-        color: '$gray100',
-        marginBottom: '1.875rem',
-        fontWeight: '700',
-        lineHeight: '160%',
+  img: {
+    objectFit: "cover",
+  },
+});
 
-    },
-    button: {
-        cursor: 'pointer',
-    }
+export const CartProductDetails = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
 
-})
+  p: {
+    color: "$gray300",
+    fontSize: "$md",
+  },
 
-export const CardProduct = styled('div', {
-    display: 'flex',
-    flexDirection: 'column',
-})
-export const ContainerImage = styled('div', {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '1.25rem',
+  strong: {
+    marginTop: 4,
+    fontSize: "$md",
+    fontWeight: 700,
+  },
 
-    
-    
-    img: {
-       objectFit: 'cover',
-        
-    }
-})
+  button: {
+    marginTop: "auto",
+    width: "max-content",
+    background: "none",
+    border: "none",
+    color: "$green500",
+    fontSize: "1rem",
+    fontWeight: 700,
+  },
+});
 
-export const ImageContent = styled('div', {
-    background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
-    height: '94.788px',
-    width: '94.788px',
+export const CartFinalization = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  marginTop: "auto",
+
+  button: {
+    width: "100%",
+    background: "$green500",
+    color: "$white",
+    fontSize: "$md",
+    height: "4.3125rem",
+    border: "none",
     borderRadius: 8,
-})
-
-export const CartDetails = styled('div', {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    gap: '8px',
-
-    p: {
-        fontSize: '$md',
-        color: '$gray300',
-        fontWeight: 'normal'
-    },
-
-    span: {
-        fontSize: '$md', 
-        fontWeight: 'bold',
-        color: '$gray100',
-    },
-
-    button: {
-        border: 'none',
-        background: 'none',
-        color: '$green500',
-        fontWeight: 'bold',
-        fontSize: '1rem',
-    },
-
-})
-
-export const CartInfo = styled('div', {
-    width: '100%',
-    
-   div: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '6px',
-
-
-    p: {
-        color:'$gray100',
-        fontSize: '1rem',
-    },
-
-    span: {
-        fontSize: '$md',
-        color: '$gray300',
-    },
-   
-   },
-   ".last-child": {
-    p: {
-        fontWeight: 'bold',
-        fontSize: '$xl',
-        marginBottom: '3.5625rem',
-    },
-    span: {
-        fontWeight: 'bold',
-        fontSize: '$xl',
-        marginBottom: '3.5625rem',
-    }
-},
-
-})
-
-export const BtnFinalization = styled('button', {
-    width: '100%',
-    border: 'none',
-    backgroundColor: '$green500',
-    color: '$white',
-    fontSize: '$md',
-    fontWeight: 'bold',
-    padding: '1.25rem 0',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-    cursor: 'pointer',
+    fontWeight: 700,
 
     "&:disabled": {
-        opacity: 0.6,
-        cursor: "not-allowed",
+      opacity: 0.6,
+      cursor: "not-allowed",
+    },
+
+    "&:not(:disabled):hover": {
+      backgroundColor: "$green300",
+    },
+  },
+});
+
+export const FinalizationDetails = styled("section", {
+  display: "flex",
+  flexDirection: "column",
+  gap: 8,
+  marginBottom: 55,
+
+  div: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+
+    p: {
+      fontSize: "$md",
+      color: "$gray300",
+    },
+
+    "&:last-child": {
+      fontWeight: "bold",
+
+      span: {
+        fontSize: "$md",
       },
-  
-      "&:not(:disabled):hover": {
-        backgroundColor: "$green300",
+
+      p: {
+        color: "$gray100",
+        fontSize: "$xl",
       },
-    })
-export const CartClose = styled(Dialog.Close, {
-    color: '$gray500',
-    position: 'absolute',
-    top: '1.5rem',
-    right: '1.5rem',
-    border: 'none',
-    background: 'none',
-})
+    },
+  },
+});

@@ -18,7 +18,23 @@ export const ButtonCartContainer = styled('button', {
         opacity: 0.6,
         cursor: 'not-allowed',
     },
+    span: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'absolute',
+      top: '-5px',
+      right: '-5px',
+      width: 24,
+      height: 24,
+      borderRadius: '100%',
+      backgroundColor: '$green500',
+      color: '$white',
+      fontSize: '0.875rem',
+      fontWeight: 'bold',
 
+
+    },
     variants: {
         color: {
           gray: {
