@@ -7,7 +7,7 @@
  [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/pt/)
  ![Stripe](https://img.shields.io/badge/Stripe-626CD9?style=for-the-badge&logo=Stripe&logoColor=white)
 ### Sobre o projeto
-<p>Projeto desenvolvido com NextJs e TypeScript com integração com a Stripe, utilizando stitches para estilização, trata-se de um E-commerce, ao escolher a camisa deseja e clicar na opção de "Finalizar", será redirecionado para plataforma Stripe para finalizar a compra e em seguida, caso a compra seja confirmada, retornará para a página de sucesso.</p>
+<p>Projeto desenvolvido com NextJs e TypeScript para desafio da trilha ignite da Rocketseat com integração com a Stripe, utilizando stitches para estilização, trata-se de um E-commerce, ao escolher a camisa desejada e clicar na opção de "Finalizar", será redirecionado para plataforma Stripe para finalizar a compra e em seguida, caso a compra seja confirmada, retornará para a página de sucesso.</p>
 
 ### Home
  <img src= "./src/assets/home.svg" width="800px" height="400px"/>
