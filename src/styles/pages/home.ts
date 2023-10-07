@@ -53,6 +53,10 @@ export const Product = styled('div', {
             fontWeight: 'bold',
             color: '$green300',
 
+        },
+        ".product-details": {
+            display: 'flex',
+            flexDirection: 'column',
         }
 
 },

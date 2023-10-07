@@ -62,6 +62,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       product: {
         name: product.name,
         imageUrl: product.images[0],
+        
       },
     },
   };
